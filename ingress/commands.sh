@@ -18,12 +18,12 @@ source <(kubectl completion bash)
 
 # create deployments
 kubectl create -f httpd-deployment.yaml
-kubectl create -f lighttpd-deployment.yaml
+kubectl create -f helloworld-deployment.yaml
 kubectl create -f nginx-deployment.yaml
 
 # create services
 kubectl apply -f httpd-service.yaml
-kubectl apply -f lighttpd-service.yaml
+kubectl apply -f helloworld-service.yaml
 kubectl apply -f nginx-service.yaml
 
 # create ingress
@@ -32,8 +32,19 @@ kubectl apply -f ingress.yaml
 # verify ingress
 kubectl get ingress ingress
 
-# create a firewall rule to allow a connection to the nodeport
-gcloud compute firewall-rules create test-node-port --allow tcp:32264
+# create a firewall rule to allow a connection to the GLB
+gcloud compute firewall-rules create ingress --allow tcp:80
 
 # curl from your local machine to the node IP and port
-curl http://[node_ip]:[node_port]
+curl http://[ingress_glb_ip]
+curl http://[ingress_glb_ip]/nginx
+curl http://[ingress_glb_ip]/default-backend
+
+# tidy up
+kubectl delete deployment httpd
+kubectl delete deployment helloworld
+kubectl delete deployment nginx
+kubectl delete service httpd-service
+kubectl delete service helloworld-service
+kubectl delete service nginx-service
+kubectl delete ingress my-ingress
