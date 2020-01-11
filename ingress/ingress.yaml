@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  backend:
+    serviceName: lighttpd-service
+    servicePort: 60002
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: httpd-service
+          servicePort: 60001
+      - path: /nginx
+        backend:
+          serviceName: nginx-service
+          servicePort: 60000

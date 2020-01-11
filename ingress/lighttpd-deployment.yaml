@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lighttpd
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lighttpd
+  template:
+    metadata:
+      labels:
+        app: lighttpd
+    spec:
+      containers:
+      - name: lighttpd
+        image: sebp/lighttpd
+        ports:
+        - containerPort: 80
