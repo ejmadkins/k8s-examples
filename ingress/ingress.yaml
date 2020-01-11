@@ -4,7 +4,7 @@ metadata:
   name: my-ingress
 spec:
   backend:
-    serviceName: lighttpd-service
+    serviceName: helloworld-service
     servicePort: 60002
   rules:
   - http:

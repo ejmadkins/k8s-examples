@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: lighttpd
+  name: helloworld
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: lighttpd
+      app: helloworld
   template:
     metadata:
       labels:
-        app: lighttpd
+        app: helloworld
     spec:
       containers:
-      - name: lighttpd
-        image: sebp/lighttpd
+      - name: helloworld
+        image: strm/nginx-balancer
         ports:
         - containerPort: 80
