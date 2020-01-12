@@ -51,3 +51,6 @@ kubectl rollout undo deployments/nginx
 
 # verify the rollback
 kubectl rollout status deployments/nginx
+
+# tidy up
+kubectl delete deployment nginx
