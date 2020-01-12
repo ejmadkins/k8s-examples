@@ -48,3 +48,6 @@ kubectl get pods
 
 # undo the update
 kubectl rollout undo deployments/nginx
+
+# verify the rollback
+kubectl rollout status deployments/nginx
