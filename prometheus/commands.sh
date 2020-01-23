@@ -46,7 +46,14 @@ kubectl create -f config-map.yaml -n prometheus
 # create prometheus deployment
 kubectl create -f deployment.yaml -n prometheus
 
+# get the pod name
+kubectl get pods -n prometheus
 
+# port forward to prometheus
+kubectl port-forward <pod-name> 8080:9090 -n prometheus
+
+# use web preview in cloud shell
+# create the service
 
 # execute script to deploy the stackdriver collector
 sh ./patch.sh deployment prometheus-deployment

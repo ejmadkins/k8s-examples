@@ -8,7 +8,7 @@ metadata:
     prometheus.io/port: '9090'
     prometheus.io/port2: '9091'
   name: prometheus-k8s
-  namespace: ${KUBE_NAMESPACE}
+  namespace: prometheus
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Cluster
