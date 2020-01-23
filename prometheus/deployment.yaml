@@ -1,0 +1,48 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: prometheus-k8s
+  namespace: ${KUBE_NAMESPACE}
+  labels:
+    app: prometheus
+    prometheus: k8s
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+      prometheus: k8s
+  template:
+    metadata:
+      labels:
+        app: prometheus
+        prometheus: k8s
+    spec:
+      serviceAccount: prometheus
+      securityContext:
+        runAsUser: 0
+      containers:
+      - name: prometheus
+        image: quay.io/prometheus/prometheus:v2.15.2
+        imagePullPolicy: Always
+        args:
+        - "--config.file=/etc/prometheus/config/prometheus.yaml"
+        - "--storage.tsdb.path=/data"
+        - "--storage.tsdb.min-block-duration=15m"
+        - "--storage.tsdb.max-block-duration=4h"
+        - "--storage.tsdb.retention=48h"
+        ports:
+        - name: prometheus
+          containerPort: 9090
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus/config
+        - name: data-volume
+          mountPath: /data
+      volumes:
+      - name: config-volume
+        configMap:
+          name: prometheus-k8s
+      - name: data-volume
+        emptyDir: {}
+      terminationGracePeriodSeconds: 300
