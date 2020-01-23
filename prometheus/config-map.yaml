@@ -17,7 +17,7 @@ data:
           severity: slack
         annotations:
           summary: High Memory Usage
-  prometheus.yml: |-
+  prometheus.yaml: |-
     global:
       scrape_interval: 5s
       evaluation_interval: 5s
