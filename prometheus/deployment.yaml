@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: prometheus-k8s
-  namespace: ${KUBE_NAMESPACE}
+  namespace: prometheus
   labels:
     app: prometheus
     prometheus: k8s
