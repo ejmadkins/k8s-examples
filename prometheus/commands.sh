@@ -4,6 +4,15 @@ export my_region=europe-west2
 export my_zone=europe-west2-a
 export my_cluster=demo-container
 
+# install the Stackdriver Collector to get those metrics exported to the Stackdriver backend, add env variables
+export KUBE_NAMESPACE=prometheus
+export KUBE_CLUSTER=$my_cluster
+export GCP_REGION=$my_region
+export GCP_PROJECT=$project_id
+export DATA_DIR=/prometheus/
+export DATA_VOLUME=prometheus-storage-volume
+export SIDECAR_IMAGE_TAG=release-0.7.1
+
 # create GKE cluster
 gcloud container clusters create $my_cluster \
 --num-nodes 3 \
@@ -32,19 +41,10 @@ kubectl create -f cluster-role.yaml
 kubectl create -f cluster-role-binding.yaml
 
 # create ConfigMap
-kubectl create -f configMap.yaml -n prometheus
+kubectl create -f config-map.yaml -n prometheus
 
 # create prometheus deployment
 kubectl create -f deployment.yaml -n prometheus
-
-# install the Stackdriver Collector to get those metrics exported to the Stackdriver backend, add env variables
-export KUBE_NAMESPACE=prometheus
-export KUBE_CLUSTER=$my_cluster
-export GCP_REGION=$my_region
-export GCP_PROJECT=$project_id
-export DATA_DIR=/prometheus/
-export DATA_VOLUME=prometheus-storage-volume
-export SIDECAR_IMAGE_TAG=release-0.7.1
 
 # execute script to deploy the stackdriver collector
 sh ./patch.sh deployment prometheus-deployment
