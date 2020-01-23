@@ -46,6 +46,8 @@ kubectl create -f config-map.yaml -n prometheus
 # create prometheus deployment
 kubectl create -f deployment.yaml -n prometheus
 
+
+
 # execute script to deploy the stackdriver collector
 sh ./patch.sh deployment prometheus-deployment
 
