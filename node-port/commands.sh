@@ -3,7 +3,7 @@ docker build -t flask-app:latest flask-app/
 docker run -d -p 5000:5000 flask-app
 
 # set env variables
-export project_id=ejmadkins-terraform
+export project_id=<id>
 export my_zone=europe-west2-a
 export my_cluster=demo-container
 
