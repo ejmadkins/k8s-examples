@@ -1,5 +1,5 @@
 # set env variables
-export project_id=ejmadkins-terraform
+export project_id=<id>
 export my_zone=europe-west2-a
 export my_cluster=demo-container
 
