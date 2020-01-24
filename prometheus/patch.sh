@@ -28,8 +28,8 @@ spec:
         - \"--prometheus.wal-directory=${DATA_DIR}/wal\"
         - \"--stackdriver.kubernetes.location=${GCP_REGION}\"
         - \"--stackdriver.kubernetes.cluster-name=${KUBE_CLUSTER}\"
-        #- \"--stackdriver.generic.location=${GCP_REGION}\"
-        #- \"--stackdriver.generic.namespace=${KUBE_CLUSTER}\"
+        - \"--stackdriver.generic.location=${GCP_REGION}\"
+        - \"--stackdriver.generic.namespace=${KUBE_CLUSTER}\"
         ports:
         - name: sidecar
           containerPort: 9091

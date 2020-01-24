@@ -11,12 +11,12 @@ export SIDECAR_IMAGE_TAG=0.6.4
 # create GKE cluster
 gcloud container clusters create $KUBE_CLUSTER \
 --num-nodes 3 \
---zone $my_zone \
+--zone $GCP_ZONE \
 --scopes=cloud-platform \
 --enable-ip-alias
 
 # get the credentials
-gcloud container clusters get-credentials $KUBE_CLUSTER
+gcloud container clusters get-credentials $KUBE_CLUSTER --zone $GCP_ZONE
 
 # configure kubectl tab completion
 source <(kubectl completion bash)
@@ -28,6 +28,9 @@ kubectl create clusterrolebinding owner-cluster-admin-binding \
 
 # create a dedicated namespace
 kubectl create namespace prometheus
+
+# create service account
+kubectl create -f service-account.yaml
 
 # create cluster role
 kubectl create -f cluster-role.yaml
@@ -55,17 +58,10 @@ kubectl apply -f service.yaml
 gcloud compute firewall-rules create test-node-port --allow tcp:32387,30182
 
 # execute script to deploy the stackdriver collector
-sh ./patch.sh deployment prometheus-deployment
+sh ./patch.sh deployment prometheus-k8s
 
 # verify that the stackdriver collector is installed
-kubectl -n prometheus get deployment prometheus-k8s -o=go-template='{{range .spec.template.spec.containers}}{{if eq .name "stackdriver-prometheus-sidecar"}}{{$output = (print "stackdriver-prometheus-sidecar exists. Image: " .image)}}{{end}}{{printf $output}}{{"\n"}}'
+kubectl -n prometheus get deployment prometheus-k8s -o=go-template='{{$output := "stackdriver-prometheus-sidecar does not exists."}}{{range .spec.template.spec.containers}}{{if eq .name "sidecar"}}{{$output = (print "stackdriver-prometheus-sidecar exists. Image: " .image)}}{{end}}{{end}}{{printf $output}}{{"\n"}}'
 
 # verify the prometheus deployment
 kubectl get pods -n prometheus
-
-
-kubectl -n prometheus get deployment prometheus-k8s -o=go-template='
-{{range .spec.template.spec.containers}}{{if eq .name "stackdriver-prometheus-sidecar"}}
-{{$output = (print "stackdriver-prometheus-sidecar exists. Image: " .image)}}{{end}}{{end}}{{printf $output}}{{"\n"}}'
-
-
