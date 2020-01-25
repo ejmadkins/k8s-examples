@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+      tier: frontend
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"      # must be quoted
+        prometheus.io/port: "5000" # must be quoted
+        prometheus.io/path: "/metrics"      # it defaults to /metrics
+      labels:
+        app: flask-app
+        tier: frontend
+    spec:
+      containers:
+      - name: flask-app
+        image: gcr.io/ejmadkins-terraform/flask-app
+        ports:
+        - containerPort: 5000

@@ -13,6 +13,7 @@ gcloud container clusters create $KUBE_CLUSTER \
 --num-nodes 3 \
 --zone $GCP_ZONE \
 --scopes=cloud-platform \
+--enable-stackdriver-kubernetes \
 --enable-ip-alias
 
 # get the credentials
@@ -65,3 +66,6 @@ kubectl -n prometheus get deployment prometheus-k8s -o=go-template='{{$output :=
 
 # verify the prometheus deployment
 kubectl get pods -n prometheus
+
+# submit build
+gcloud builds submit --tag gcr.io/$project_id/flask-app flask-app/
