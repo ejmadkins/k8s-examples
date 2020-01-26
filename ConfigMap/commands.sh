@@ -54,4 +54,8 @@ kubectl exec -it -n prod-environment sharky-app -- sh
 echo $ENV; echo $TITLE; echo $PIC; echo $NAME;
 
 # curl from your local machine to the node IP and port
-curl http://[lb_ip]:[node_port]
+curl http://[lb_ip]:[port]
+
+# tidy up
+kubectl delete namespaces dev-environment
+kubectl delete namespaces prod-environment
