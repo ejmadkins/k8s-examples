@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: sharky-app
+data:
+  TITLE: Pics
+  NAME: Ed
+  config.cfg: |
+    ENV=Prod
+    PIC=https://cbsnews1.cbsistatic.com/hub/i/2012/09/03/23633c73-a645-11e2-a3f0-029118418759/greatwhiteshark.jpg
