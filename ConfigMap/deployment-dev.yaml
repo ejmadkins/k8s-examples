@@ -31,5 +31,5 @@ spec:
         mountPath: /config
     volumes:
     - name: config-volume
-    configMap:
+      configMap:
         name: sharky-app-config-dev
