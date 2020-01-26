@@ -23,7 +23,6 @@ spec:
   containers:
     - name: sharky-app
       image: gcr.io/IMAGE/flask-app
-      command: ["/bin/sh", "-c", "echo $(ENV) > environment.txt"]
       env:
       - name: TITLE
         valueFrom:

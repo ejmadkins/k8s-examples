@@ -26,11 +26,10 @@ source <(kubectl completion bash)
 # apply the ConfigMap for dev and prod
 kubectl apply -f config-map-dev.yaml; kubectl apply -f config-map-prod.yaml
 
-# update deployments with project_id env variable
-sed "s/IMAGE/$project_id/g" deployment-dev.yaml; sed "s/IMAGE/$project_id/g" deployment-prod.yaml
-
 # apply the ConfigMap for dev and prod
-kubectl -f apply deployment-dev.yaml deployment-prod.yaml
+cat deployment-prod.yaml | sed "s/IMAGE/$project_id/g" | kubectl apply -f -
+
+kubectl apply -f deployment-dev.yaml | sed "s/IMAGE/$project_id/g"; kubectl apply -f deployment-prod.yaml | sed "s/IMAGE/$project_id/g"
 
 # verify deployments
 kubectl get configmaps -n dev-environment
@@ -41,7 +40,7 @@ kubectl get all -n dev-environment -o wide
 kubectl get all -n prod-environment -o wide
 
 # create a firewall rule to allow a connection to the nodeport
-gcloud compute firewall-rules create sharky-app --allow tcp:4000
+gcloud compute firewall-rules create sharky-app --allow tcp:80
 
 # connect to the pod
 kubectl exec -it -n dev-environment sharky-app -- sh
