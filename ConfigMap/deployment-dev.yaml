@@ -1,7 +1,16 @@
 apiVersion: v1
-kind: Namespace
+kind: Service
 metadata:
-  name: dev-environment
+  name: sharky-app-lb-dev
+  namespace: dev-environment
+spec:
+  type: LoadBalancer
+  selector:
+    app: sharky-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 5000
 ---
 apiVersion: v1 
 kind: Pod 
@@ -13,7 +22,7 @@ metadata:
 spec:
   containers:
     - name: sharky-app
-      image: gcr.io/ejmadkins-terraform/flask-app
+      image: gcr.io/$project_id/flask-app
       command: ["/bin/sh", "-c", "echo $(ENV) > environment.txt"]
       env:
       - name: TITLE
