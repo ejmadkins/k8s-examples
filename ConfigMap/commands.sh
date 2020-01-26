@@ -24,10 +24,10 @@ gcloud container clusters get-credentials $my_cluster
 source <(kubectl completion bash)
 
 # apply the ConfigMap for dev and prod
-kubectl -f apply config-map-dev.yaml config-map-prod.yaml
+kubectl apply -f config-map-dev.yaml; kubectl apply -f config-map-prod.yaml
 
 # update deployments with project_id env variable
-sed 's/IMAGE/$project_id/g' deployment-dev.yaml deployment-prod.yaml
+sed "s/IMAGE/$project_id/g" deployment-dev.yaml; sed "s/IMAGE/$project_id/g" deployment-prod.yaml
 
 # apply the ConfigMap for dev and prod
 kubectl -f apply deployment-dev.yaml deployment-prod.yaml
