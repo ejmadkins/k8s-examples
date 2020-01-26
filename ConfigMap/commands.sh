@@ -27,9 +27,8 @@ source <(kubectl completion bash)
 kubectl apply -f config-map-dev.yaml; kubectl apply -f config-map-prod.yaml
 
 # apply the ConfigMap for dev and prod
+cat deployment-dev.yaml | sed "s/IMAGE/$project_id/g" | kubectl apply -f -
 cat deployment-prod.yaml | sed "s/IMAGE/$project_id/g" | kubectl apply -f -
-
-kubectl apply -f deployment-dev.yaml | sed "s/IMAGE/$project_id/g"; kubectl apply -f deployment-prod.yaml | sed "s/IMAGE/$project_id/g"
 
 # verify deployments
 kubectl get configmaps -n dev-environment
