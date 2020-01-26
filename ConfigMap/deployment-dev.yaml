@@ -6,12 +6,12 @@ metadata:
 apiVersion: v1 
 kind: Pod 
 metadata:
-    name: sharky-app
-    namespace: dev-environment
-    labels:
-      app: sharky-app
+  name: sharky-app
+  namespace: dev-environment
+  labels:
+    app: sharky-app
 spec:
-    containers:
+  containers:
     - name: sharky-app
       image: gcr.io/ejmadkins-terraform/flask-app
       command: ["/bin/sh", "-c", "echo $(ENV) > environment.txt"]
@@ -19,17 +19,17 @@ spec:
       - name: TITLE
         valueFrom:
             configMapKeyRef:
-            name: sharky-app-config-dev
-            key: TITLE
+              name: sharky-app-config-dev
+              key: TITLE
       - name: NAME
         valueFrom:
             configMapKeyRef:
-            name: sharky-app-config-dev
-            key: NAME
+              name: sharky-app-config-dev
+              key: NAME
         volumeMounts:
-        - name: config-volume
-        mountPath: /config
-    volumes:
+          - name: config-volume
+            mountPath: /config
+  volumes:
     - name: config-volume
       configMap:
         name: sharky-app-config-dev
