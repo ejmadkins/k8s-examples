@@ -26,9 +26,9 @@ spec:
             configMapKeyRef:
               name: sharky-app-config-dev
               key: NAME
-        volumeMounts:
-          - name: config-volume
-            mountPath: /config
+      volumeMounts:
+        - name: config-volume
+          mountPath: /config
   volumes:
     - name: config-volume
       configMap:
